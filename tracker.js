@@ -78,6 +78,53 @@ function viewEmployee() {
   });
 }
 
+function viewRoles() {
+  const query = "SELECT title, salary, department_id FROM role";
+  connection.query(query, function (err, res) {
+    console.table(res)
+    start();
+  });
+}
+
+function viewDepartments() {
+  const query = "SELECT name FROM department";
+  connection.query(query, function (err, res) {
+    console.table(res)
+    start();
+  });
+}
+
+
+function addRoles() {
+  inquirer
+    .prompt(
+      {
+
+        type: "input",
+        message: "Enter the department name?",
+        name: "name"
+      }
+    )
+    .then(function (selection) {
+      console.log(selection.name)
+
+      // when finished prompting, insert a new item into the db with that info
+      connection.query(
+        "INSERT INTO department SET ?",
+        {
+          name: selection.name,
+
+        },
+        function (err, res) {
+          if (err) throw err;
+          console.log("success");
+
+          start();
+        }
+      );
+    })
+
+}
 
 function addDepartment() {
   inquirer
@@ -109,6 +156,9 @@ function addDepartment() {
     })
 
 }
+
+
+
 function LookupRoles() {
   return new Promise(function (resolve, reject) {
 
