@@ -157,6 +157,44 @@ function addDepartment() {
 
 }
 
+function addEmployee() {
+  inquirer
+    .prompt([
+      {
+
+        type: "input",
+        message: "Enter employee first name",
+        name: "first_name"
+      },
+      {
+        type: "input",
+        message: "Enter employee last name",
+        name: "last_name"
+      }
+
+    ])
+    .then(function (selection) {
+      console.log(selection.first+ " " + selection.last)
+
+      // when finished prompting, insert a new item into the db with that info
+      const query = connection.query(
+        "INSERT INTO employee SET ?",
+        {
+          first: selection.first_name,
+          last: selection.last_name
+
+        },
+        function (err, res) {
+          if (err) throw err;
+          console.log("success");
+
+          start();
+        }
+      );
+    })
+
+}
+
 
 
 function LookupRoles() {
